@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Backend URL from environment variable
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://crud-backend-u4hc.onrender.com/users";
 
 // Add user
 export const addUser = async (data) => {
