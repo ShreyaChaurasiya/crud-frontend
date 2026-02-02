@@ -1,18 +1,31 @@
-import { Box, TextField, Button, Typography, Paper } from "@mui/material";
+import { TextField, Button, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Signup = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const [form, setForm] = useState({
+    name: "",
+    username: "",
+    email: "",
+    phone: "",
+    password: ""
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const handleSignup = () => {
-    if (!email || !password) {
+    const { name, username, email, phone, password } = form;
+
+    if (!name || !username || !email || !phone || !password) {
       alert("All fields are required");
       return;
     }
 
+    // Temporary auth storage (frontend only)
     localStorage.setItem(
       "authUser",
       JSON.stringify({ email, password })
@@ -30,17 +43,43 @@ const Signup = () => {
 
       <TextField
         fullWidth
-        label="Email"
+        label="Name"
+        name="name"
         margin="normal"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleChange}
+      />
+
+      <TextField
+        fullWidth
+        label="Username"
+        name="username"
+        margin="normal"
+        onChange={handleChange}
+      />
+
+      <TextField
+        fullWidth
+        label="Email"
+        name="email"
+        margin="normal"
+        onChange={handleChange}
+      />
+
+      <TextField
+        fullWidth
+        label="Phone"
+        name="phone"
+        margin="normal"
+        onChange={handleChange}
       />
 
       <TextField
         fullWidth
         label="Password"
         type="password"
+        name="password"
         margin="normal"
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
       />
 
       <Button
