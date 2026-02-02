@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Backend URL from environment variable
 const API_URL = "https://crud-backend-u4hc.onrender.com/users";
 
 // Add user
