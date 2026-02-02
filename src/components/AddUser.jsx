@@ -6,7 +6,7 @@ import {
   Input,
   Typography,
   Button,
-  styled
+  styled,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../service/api";
@@ -23,7 +23,7 @@ const initialValues = {
   name: "",
   username: "",
   email: "",
-  phone: ""
+  phone: "",
 };
 
 const AddUser = () => {
@@ -36,10 +36,11 @@ const AddUser = () => {
 
   const addUserDetails = async () => {
     try {
+      console.log("Sending user:", user);
       await addUser(user);
       navigate("/all");
     } catch (error) {
-      console.error("Add User Failed:", error);
+      console.error("Add user failed:", error);
       alert("Failed to add user");
     }
   };
@@ -78,3 +79,4 @@ const AddUser = () => {
 };
 
 export default AddUser;
+
