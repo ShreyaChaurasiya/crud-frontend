@@ -30,27 +30,16 @@ const AddUser = () => {
   const [user, setUser] = useState(initialValues);
   const navigate = useNavigate();
 
-
   const onValueChange = (e) => {
-    setUser((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  
   const addUserDetails = async () => {
     try {
-      if (!user.name || !user.username || !user.email || !user.phone) {
-        alert("All fields are required");
-        return;
-      }
-
-      console.log("Submitting user:", user); // Debug
       await addUser(user);
       navigate("/all");
     } catch (error) {
-      console.error("Error adding user", error);
+      console.error("Add User Failed:", error);
       alert("Failed to add user");
     }
   };
@@ -61,38 +50,22 @@ const AddUser = () => {
 
       <FormControl>
         <InputLabel>Name</InputLabel>
-        <Input
-          name="name"
-          value={user.name}
-          onChange={onValueChange}
-        />
+        <Input name="name" value={user.name} onChange={onValueChange} />
       </FormControl>
 
       <FormControl>
         <InputLabel>UserName</InputLabel>
-        <Input
-          name="username"
-          value={user.username}
-          onChange={onValueChange}
-        />
+        <Input name="username" value={user.username} onChange={onValueChange} />
       </FormControl>
 
       <FormControl>
         <InputLabel>Email</InputLabel>
-        <Input
-          name="email"
-          value={user.email}
-          onChange={onValueChange}
-        />
+        <Input name="email" value={user.email} onChange={onValueChange} />
       </FormControl>
 
       <FormControl>
         <InputLabel>Phone</InputLabel>
-        <Input
-          name="phone"
-          value={user.phone}
-          onChange={onValueChange}
-        />
+        <Input name="phone" value={user.phone} onChange={onValueChange} />
       </FormControl>
 
       <FormControl>
