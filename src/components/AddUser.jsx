@@ -1,64 +1,107 @@
 import { useState } from "react";
-
-import { FormGroup, FormControl, InputLabel, Input, Typography, Button, styled } from "@mui/material";
-
-import { useNavigate } from 'react-router-dom';
-import { addUser } from '../service/api';
+import {
+  FormGroup,
+  FormControl,
+  InputLabel,
+  Input,
+  Typography,
+  Button,
+  styled
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../service/api";
 
 const Container = styled(FormGroup)`
-    width: 50%;
-    margin: 5% auto 0 auto;
-    & > div {
-        margin-top:20px;
-    }
-`
+  width: 50%;
+  margin: 5% auto 0 auto;
+  & > div {
+    margin-top: 20px;
+  }
+`;
 
 const initialValues = {
-    "name": '',
-    "username": '',
-    "email": '',
-    "phone": ''
-}
+  name: "",
+  username: "",
+  email: "",
+  phone: ""
+};
 
 const AddUser = () => {
+  const [user, setUser] = useState(initialValues);
+  const navigate = useNavigate();
 
-    const [user, setUser] = useState(initialValues)
-    const navigate = useNavigate();
 
-    const onValueChange = (e) => {
-        setUser({ ...user, [e.target.name]: e.target.value })
-        console.log(user);
+  const onValueChange = (e) => {
+    setUser((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  
+  const addUserDetails = async () => {
+    try {
+      if (!user.name || !user.username || !user.email || !user.phone) {
+        alert("All fields are required");
+        return;
+      }
+
+      console.log("Submitting user:", user); // Debug
+      await addUser(user);
+      navigate("/all");
+    } catch (error) {
+      console.error("Error adding user", error);
+      alert("Failed to add user");
     }
+  };
 
-    const addUserDetails = async () => {
-        await addUser(user);
-        navigate('/all');
-    }
+  return (
+    <Container>
+      <Typography variant="h4">Add User</Typography>
 
-    return(
-        <Container>
-            <Typography variant="h4">Add User</Typography>
-            <FormControl>
-                <InputLabel>Name</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="name"/>
-            </FormControl>
-            <FormControl>
-                <InputLabel>UserName</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="username"/>
-            </FormControl>
-            <FormControl>
-                <InputLabel>Email</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="email"/>
-            </FormControl>
-            <FormControl>
-                <InputLabel>Phone</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="phone"/>
-            </FormControl>
-            <FormControl>
-                <Button onClick={() => addUserDetails()} variant="contained">Add User</Button>
-            </FormControl>
-        </Container>
-    )
-}
+      <FormControl>
+        <InputLabel>Name</InputLabel>
+        <Input
+          name="name"
+          value={user.name}
+          onChange={onValueChange}
+        />
+      </FormControl>
+
+      <FormControl>
+        <InputLabel>UserName</InputLabel>
+        <Input
+          name="username"
+          value={user.username}
+          onChange={onValueChange}
+        />
+      </FormControl>
+
+      <FormControl>
+        <InputLabel>Email</InputLabel>
+        <Input
+          name="email"
+          value={user.email}
+          onChange={onValueChange}
+        />
+      </FormControl>
+
+      <FormControl>
+        <InputLabel>Phone</InputLabel>
+        <Input
+          name="phone"
+          value={user.phone}
+          onChange={onValueChange}
+        />
+      </FormControl>
+
+      <FormControl>
+        <Button variant="contained" onClick={addUserDetails}>
+          Add User
+        </Button>
+      </FormControl>
+    </Container>
+  );
+};
 
 export default AddUser;
